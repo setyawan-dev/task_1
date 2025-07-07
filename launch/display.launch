@@ -1,0 +1,13 @@
+<launch>
+  <!-- Load URDF -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find task_1)/urdf/model.urdf.xacro"/>
+
+  <!-- Publish TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Joint state -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+
+  <!-- RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" output="screen" args="-d $(find task_1)/rviz/jungkat_config.rviz"/>
+</launch>

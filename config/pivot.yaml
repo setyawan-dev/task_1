@@ -1,0 +1,4 @@
+pivot_joint_controller:
+  type: effort_controllers/JointEffortController
+  joint: pivot_joint
+  pid: {p: 5.0, i: 0.01, d: 0.1}

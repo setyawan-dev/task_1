@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+<robot name="jungkat" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Base -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder length="1" radius="0.1"/></geometry>
+      <material name="gray"><color rgba="0.5 0.5 0.5 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><cylinder length="1" radius="0.1"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="3.0"/>
+      <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- Pivot Arm -->
+  <link name="pivot_arm">
+    <visual>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.05" length="0.1"/></geometry>
+      <material name="black"><color rgba="0 0 0 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.6" rpy="0 0 0"/>
+      <geometry><cylinder radius="0.05" length="0.1"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <joint name="pivot_connector" type="fixed">
+    <parent link="base_link"/>
+    <child link="pivot_arm"/>
+    <origin xyz="0 0 0.5" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Beam -->
+  <link name="beam">
+    <visual>
+      <origin xyz="0 0 -0.05" rpy="0 0 0"/>
+      <geometry><box size="2 0.2 0.1"/></geometry>
+      <material name="blue"><color rgba="0 0 1 1"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.05" rpy="10.0 0 0"/>
+      <geometry><box size="2 0.2 0.1"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="1.0"/>
+      <inertia ixx="0.2" iyy="0.2" izz="0.2" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="beam">
+    <plugin name="force_beam" filename="libgazebo_ros_force.so">
+      <bodyName>beam</bodyName>
+      <topicName>beam/force_left</topicName>
+      <referenceFrame>world</referenceFrame>
+      <force>0 0 10</force>
+    </plugin>
+    <plugin name="force_beam_right" filename="libgazebo_ros_force.so">
+      <bodyName>beam</bodyName>
+      <topicName>beam/force_right</topicName>
+      <referenceFrame>world</referenceFrame>
+      <force>0 0 -10</force>
+    </plugin>
+  </gazebo>
+
+  <!-- <gazebo reference="beam">
+    <plugin name="thrust_kiri" filename="libgazebo_ros_force.so">
+      <bodyName>beam</bodyName>
+      <topicName>beam/thrust_kiri</topicName>
+      <referenceFrame>beam</referenceFrame>
+      <xyzOffset>0.9 0 0</xyzOffset>
+      <force>0 0 3000</force>
+      <updateRate>50</updateRate>
+    </plugin>
+    <plugin name="thrust_kanan" filename="libgazebo_ros_force.so">
+      <bodyName>beam</bodyName>
+      <topicName>beam/thrust_kanan</topicName>
+      <referenceFrame>beam</referenceFrame>
+      <xyzOffset>-0.9 0 0</xyzOffset>
+      <force>0 0 7000</force>
+      <updateRate>50</updateRate>
+    </plugin>
+  </gazebo> -->
+
+
+  <joint name="pivot_joint" type="revolute">
+    <parent link="pivot_arm"/>
+    <child link="beam"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" velocity="50" lower="-1.57" upper="1.57"/>
+    <dynamics damping="0.01" friction="0.01"/>
+  </joint>
+
+  <!-- <gazebo reference="pivot_joint">
+    <plugin name="pivot_controller" filename="libgazebo_ros_joint_position.so">
+      <jointName>pivot_joint</jointName>
+      <topicName>pivot_joint/command</topicName>
+      <gain>1.0</gain>
+    </plugin>
+    <provideFeedback>true</provideFeedback>
+  </gazebo> -->
+
+  <gazebo>
+    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
+      <alwaysOn>true</alwaysOn>
+      <updateRate>50.0</updateRate>
+      <bodyName>beam</bodyName>
+      <topicName>imu/data</topicName>
+      <gaussianNoise>0.01</gaussianNoise>
+      <imuTopic>imu/data</imuTopic>
+      <frameName>beam</frameName>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="jungkat_jungkit_plugin" filename="libjungkat_jungkit_plugin.so">
+      <pivot_joint>pivot_joint</pivot_joint>
+    </plugin>
+  </gazebo>
+
+  <!-- Motor Kiri -->
+  <link name="motor_kiri">
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0005" iyy="0.0005" izz="0.0005" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <link name="motor_kiri_visual">
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry><mesh filename="package://task_1/meshes/motor1.dae" scale="0.5 0.5 0.5"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.05 0.05"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="motor_kiri_joint" type="continuous">
+    <parent link="beam"/>
+    <child link="motor_kiri"/>
+    <origin xyz="0.9 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" velocity="10.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+
+  <gazebo reference="motor_kiri">
+    <plugin name="force_kiri" filename="libgazebo_ros_force.so">
+      <bodyName>motor_kiri</bodyName>
+      <topicName>motor_kiri/thrust</topicName>
+      <referenceFrame>motor_kiri</referenceFrame>
+      <force>0 0 0</force>
+    </plugin>
+  </gazebo>
+
+  <joint name="motor_kiri_visual_joint" type="fixed">
+    <parent link="motor_kiri"/>
+    <child link="motor_kiri_visual"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- Lock yaw (Z axis) -->
+  <joint name="yaw_lock" type="fixed">
+    <parent link="beam"/>
+    <child link="yaw_blocker"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link name="yaw_blocker">
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="0.01" iyy="0.01" izz="0.01" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.5 0.5 0.1"/></geometry>
+      <material name="green"><color rgba="0 1 0 0.5"/></material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.5 0.5 0.1"/></geometry>
+    </collision>
+  </link>
+
+
+  <!-- Motor Kanan -->
+  <link name="motor_kanan">
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0005" iyy="0.0005" izz="0.0005" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <link name="motor_kanan_visual">
+    <visual>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <geometry><mesh filename="package://task_1/meshes/motor2.dae" scale="0.5 0.5 0.5"/></geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry><box size="0.05 0.05 0.05"/></geometry>
+    </collision>
+  </link>
+
+  <joint name="motor_kanan_joint" type="continuous">
+    <parent link="beam"/>
+    <child link="motor_kanan"/>
+    <origin xyz="-0.9 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 -1"/>
+    <limit effort="10.0" velocity="10.0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+
+  <joint name="motor_kanan_visual_joint" type="fixed">
+    <parent link="motor_kanan"/>
+    <child link="motor_kanan_visual"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <gazebo reference="motor_kanan">
+    <plugin name="force_kanan" filename="libgazebo_ros_force.so">
+      <bodyName>motor_kanan</bodyName>
+      <topicName>motor_kanan/thrust</topicName>
+      <referenceFrame>motor_kanan</referenceFrame>
+      <force>0 0 0</force>
+    </plugin>
+  </gazebo>
+
+
+  <!-- Transmissions -->
+  <transmission name="motor_kiri_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="motor_kiri_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_kiri_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="motor_kanan_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="motor_kanan_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_kanan_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="pivot_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="pivot_joint">
+      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="pivot_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <!-- Gazebo ROS control plugin -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"/>
+  </gazebo>
+
+  <gazebo reference="motor_kiri_joint">
+    <provideFeedback>true</provideFeedback>
+  </gazebo>
+
+  <gazebo reference="motor_kanan_joint">
+    <provideFeedback>true</provideFeedback>
+  </gazebo>
+
+</robot>

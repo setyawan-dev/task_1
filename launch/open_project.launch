@@ -1,0 +1,31 @@
+<launch>
+  <!-- Load URDF dari Xacro -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find task_1)/urdf/model.urdf.xacro'" />
+
+  <!-- Load controller.yaml -->
+  <rosparam file="$(find task_1)/config/controller.yaml" command="load"/>
+
+  <!-- Jalankan Gazebo (gunakan plugin ros_control factory) -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find task_1)/worlds/project.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <!-- Spawn model ke Gazebo -->
+  <!-- <node name="spawn_model" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-urdf -param robot_description -model jungkat -x 0 -y 0 -z 0.5" /> -->
+  <node name="spawn_additional_model" pkg="gazebo_ros" type="spawn_model" output="screen"
+        args="-urdf -param robot_description -model jungkat -x 0 -y 0 -z 0.01" />
+
+  <!-- Spawner Controller -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen"
+        args="motor_kiri_controller motor_kanan_controller pivot_joint_controller"/>
+
+  <!-- Node Python untuk mengendalikan kecepatan -->
+  <node name="velocity_control" pkg="task_1" type="velocity_node" output="screen"/>
+</launch>

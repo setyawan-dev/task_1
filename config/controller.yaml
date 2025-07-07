@@ -1,0 +1,15 @@
+motor_kiri_controller:
+  type: effort_controllers/JointVelocityController
+  joint: motor_kiri_joint
+  pid: {p: 10.0, i: 0.0, d: 0.}
+
+motor_kanan_controller:
+  type: effort_controllers/JointVelocityController
+  joint: motor_kanan_joint
+  pid: {p: 10.0, i: 0.0, d: 0.}
+
+pivot_joint_controller:
+  type: effort_controllers/JointEffortController
+  joint: pivot_joint
+  pid: {p: 0.001, i: 0.01, d: 0.01}
+
