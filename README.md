@@ -4,8 +4,6 @@ Pada proyek ini, akan diimplementasikan kontrol PID menggunakan platform Gazebo.
 
 Tugas utama adalah membuat program kontrol PID yang mampu menjaga keseimbangan jungkat-jungkit agar tetap stabil. Input dari sistem berupa data sudut dari gyroscope, sedangkan output berupa kecepatan dua motor di sisi kiri dan kanan.
 
-Malu bertanya, sesat dijalan
-
 ## 📦 Instalasi Gazebo ROS Noetic
 
 ```bash
