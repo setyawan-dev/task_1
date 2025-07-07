@@ -81,6 +81,13 @@ roslaunch task_1 open_project.launch
 ```bash
 rosrun task_1 vel_control_node
 ```
+Masukan input untuk kecepatan atau stop program
+```bash
+Masukkan kecepatan (kiri kanan) atau 'stop' untuk keluar: 30 80
+Masukkan kecepatan (kiri kanan) atau 'stop' untuk keluar: 50 50
+Masukkan kecepatan (kiri kanan) atau 'stop' untuk keluar: stop
+
+```
 
 ### 3. Lihat Data yang siap diunakan:
 ```bash
