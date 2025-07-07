@@ -71,13 +71,13 @@ source devel/setup.bash
 
 ## 🚀 Menjalankan Simulasi
 
-### 1. Menjalankan Gazebo:
+### 2. Menjalankan Gazebo:
 
 ```bash
 roslaunch task_1 open_project.launch
 ```
 
-### 2. Menjalankan Contoh Program:
+### 3. Menjalankan Contoh Program:
 ```bash
 rosrun task_1 vel_control_node
 ```
@@ -89,7 +89,7 @@ Masukkan kecepatan (kiri kanan) atau 'stop' untuk keluar: stop
 
 ```
 
-### 3. Lihat Data yang siap diunakan:
+### 4. Lihat Data yang siap diunakan:
 ```bash
 rostopic list
 ```
@@ -120,9 +120,24 @@ maka akan muncul:
 /rosout_agg
 /vel/cmd
 ```
-
-pakai data ini!
+---
+### 5. DATA PENTING:
+1. Kontrol motor kiri dan kanan
 ```bash
 /vel/cmd
+```
+```bash
+Motor Kiri = liniear.x
+Motor Kanan = angular.x
+```
+
+2. Data gyroscope
+```bash
 /gyro/data
+```
+```bash
+orientation.x (Vektor sumbu rotasi (arah))
+orientation.y (Vektor sumbu rotasi (arah))
+orientation.z (Vektor sumbu rotasi (arah))
+orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
 ```
