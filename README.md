@@ -76,7 +76,7 @@ source devel/setup.bash
 ```bash
 roslaunch task_1 open_project.launch
 ```
-![Gazebo Simulasi](/Pictures/gazebo.png)
+![Gazebo Simulasi](scripts/gazebo.png)
 
 ### 2. Menjalankan Contoh Program:
 ```bash
