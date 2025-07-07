@@ -1,15 +1,10 @@
 # 🤖 task_1
 
-Simulasi robot dengan ROS Noetic dan Gazebo.
-pada projek kali ini akan mengimplementasikan
-PID CONTROL dengan menggunakan platform Gazebo
-Pada projek ini kalian akan membuat program untuk
-menstabilkan sebuah jungkat jungkit dimana di sisi
-kiri dan kanan terdapat sebuah motor dan gyro di
-tengah nya, kalian harus membuat program agar
-jungkat jungkit ini stabil dengan menggunakan PID
-input yang digunakan adalah dari data gyro dan outputnya
-adalah 2 motor di sisi kiri dan kanan.
+Pada proyek ini, akan diimplementasikan kontrol PID menggunakan platform Gazebo. Fokus simulasi adalah pada sistem jungkat-jungkit yang memiliki dua motor di sisi kiri dan kanan serta sensor gyroscope di bagian tengah.
+
+Tugas utama adalah membuat program kontrol PID yang mampu menjaga keseimbangan jungkat-jungkit agar tetap stabil. Input dari sistem berupa data sudut dari gyroscope, sedangkan output berupa kecepatan dua motor di sisi kiri dan kanan.
+
+Malu bertanya, sesat dijalan
 
 ## 📦 Instalasi Gazebo ROS Noetic
 
