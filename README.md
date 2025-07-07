@@ -50,7 +50,7 @@ sudo apt install \
 
 ## 📥 Clone Repository
 
-### 1. Clone repo ini ke `src`:
+### Clone repo ini ke `src`:
 
 ```bash
 cd ~/catkin_ws/src
@@ -71,13 +71,14 @@ source devel/setup.bash
 
 ## 🚀 Menjalankan Simulasi
 
-### 2. Menjalankan Gazebo:
+### 1. Menjalankan Gazebo:
 
 ```bash
 roslaunch task_1 open_project.launch
 ```
+![Gazebo Simulasi](/Pictures/gazebo.png)
 
-### 3. Menjalankan Contoh Program:
+### 2. Menjalankan Contoh Program:
 ```bash
 rosrun task_1 vel_control_node
 ```
@@ -89,7 +90,7 @@ Masukkan kecepatan (kiri kanan) atau 'stop' untuk keluar: stop
 
 ```
 
-### 4. Lihat Data yang siap diunakan:
+### 3. Lihat Data yang siap diunakan:
 ```bash
 rostopic list
 ```
@@ -121,7 +122,7 @@ maka akan muncul:
 /vel/cmd
 ```
 ---
-### 5. DATA PENTING:
+### 4. DATA PENTING:
 1. Kontrol motor kiri dan kanan
 ```bash
 /vel/cmd
