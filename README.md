@@ -90,7 +90,7 @@ Masukkan kecepatan (kiri kanan) atau 'stop' untuk keluar: stop
 
 ```
 
-### 3. Lihat Data yang siap diunakan:
+### 3. Lihat Data yang siap digunakan:
 ```bash
 rostopic list
 ```
@@ -128,7 +128,7 @@ maka akan muncul:
 /vel/cmd
 ```
 ```bash
-Motor Kiri = liniear.x
+Motor Kiri = linear.x
 Motor Kanan = angular.x
 ```
 
