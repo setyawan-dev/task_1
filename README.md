@@ -164,11 +164,17 @@ orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
   Menghitung selisih antara nilai target dan nilai saat ini.
   Mengolah error menjadi nilai output berdasarkan rumus PID.
     # Rumus PID di bawah ini:
-    self.current_pitch = data gyro
+
+      self.current_pitch = data gyro
+
       error = 0.0 - self.current_pitch
+
       self.integral += error * dt
+
       derivative = (error - self.prev_error) / dt
+
       output = self.kp * error + self.ki * self.integral + self.kd * derivative
+
       self.prev_error = error
 
 6.Konversi Output ke Kecepatan Motor
