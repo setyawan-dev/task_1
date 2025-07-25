@@ -155,7 +155,7 @@ orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
   Mempersiapkan subscriber untuk menerima data dari sensor gyro.
 
 3.Inisialisasi Parameter PID
-  Menyusun nilai parameter pengendali (proposional, integral, derivatif) dan variabel penyimpanan data sebelumnya.
+  Menyusun nilai parameter pengendali (proposional, integral, derivatif) dan variabel penyimpanan data.
 
 4.Masuk ke Fungsi Loop
   Program masuk ke perulangan utama yang berjalan terus selama ROS aktif.
