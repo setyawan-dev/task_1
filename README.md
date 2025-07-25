@@ -164,25 +164,40 @@ orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
   Menghitung selisih antara nilai target dan nilai saat ini.
   Mengolah error menjadi nilai output berdasarkan rumus PID.
     # Rumus PID di bawah ini:
-
+      self.kp = 0.0
+      self.ki = 0.0
+      self.kd = 0.0
+      self.prev_error = 0.0
+      self.integral = 0.0
+      self.current_pitch = 0.0
+      self.last_time = rospy.get_time()
+      dt = now - self.last_time
+            if dt == 0:
+                dt = 0.01
       self.current_pitch = data gyro
-
       error = 0.0 - self.current_pitch
-
       self.integral += error * dt
-
       derivative = (error - self.prev_error) / dt
-
       output = self.kp * error + self.ki * self.integral + self.kd * derivative
-
       self.prev_error = error
+      self.last_time = now
 
 6.Konversi Output ke Kecepatan Motor
-  Mengubah nilai output menjadi dua nilai kecepatan motor (kanan dan kiri), dengan pembatas nilai maksimum dan minimum. (set min max speed)
+  Mengubah nilai output menjadi dua nilai kecepatan motor (kanan dan kiri), dengan pembatas nilai maksimum dan minimum.
+  # speed
+  base_speed = 60.0 
+  speed_kiri = base_speed - output
+  speed_kanan = base_speed + output
+  # set min max speed
+  speed_kiri = max(20.0, min(100.0, speed_kiri))
+  speed_kanan = max(20.0, min(100.0, speed_kanan))
 
 7.Mempersiapkan dan Mengirimkan Perintah
   Membuat pesan kecepatan yang siap dikirim, lalu menerbitkannya ke topik.
-  (publish ke topik /cmd/vel)
+  # publish ke topik /cmd/vel
+  twist.linear.x = speed_kiri
+  twist.angular.x = speed_kanan
+  self.pub_cmd.publish(twist)
 
 8.Menampilkan Data ke Terminal
   Menampilkan nilai pitch dari gyro, error, dan kecepatan hasil PID ke terminal.
