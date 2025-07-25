@@ -146,7 +146,7 @@ orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
 
 ---
 ### CLUE
-'''bash
+```bash
 1.Inisialisasi Node ROS
   Program memulai node baru untuk menjalankan proses kendali PID berbasis data gyro.
 
@@ -187,4 +187,4 @@ orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
 8.Menampilkan Data ke Terminal
   Menampilkan nilai pitch dari gyro, error, dan kecepatan hasil PID ke terminal.
 
-'''
+```
