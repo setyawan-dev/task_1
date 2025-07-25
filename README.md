@@ -142,3 +142,43 @@ orientation.y (Vektor sumbu rotasi (arah))
 orientation.z (Vektor sumbu rotasi (arah))
 orientation.w (Besarnya rotasi dalam bentuk sudut (cos(θ/2)))
 ```
+
+
+---
+### CLUE
+'''bash
+1.Inisialisasi Node ROS
+  Program memulai node baru untuk menjalankan proses kendali PID berbasis data gyro.
+
+2.Deklarasi Publisher dan Subscriber
+  Mempersiapkan publisher untuk mengirimkan perintah ke topik kecepatan.
+  Mempersiapkan subscriber untuk menerima data dari sensor gyro.
+
+3.Inisialisasi Parameter PID
+  Menyusun nilai parameter pengendali (proposional, integral, derivatif) dan variabel penyimpanan data sebelumnya.
+
+4.Masuk ke Fungsi Loop
+  Program masuk ke perulangan utama yang berjalan terus selama ROS aktif.
+
+5.Perhitungan Error dan PID
+  Menghitung selisih antara nilai target dan nilai saat ini.
+  Mengolah error menjadi nilai output berdasarkan rumus PID.
+    # Rumus PID di bawah ini:
+    self.current_pitch = data gyro
+      error = 0.0 - self.current_pitch
+      self.integral += error * dt
+      derivative = (error - self.prev_error) / dt
+      output = self.kp * error + self.ki * self.integral + self.kd * derivative
+      self.prev_error = error
+
+6.Konversi Output ke Kecepatan Motor
+  Mengubah nilai output menjadi dua nilai kecepatan motor (kanan dan kiri), dengan pembatas nilai maksimum dan minimum. (set min max speed)
+
+7.Mempersiapkan dan Mengirimkan Perintah
+  Membuat pesan kecepatan yang siap dikirim, lalu menerbitkannya ke topik.
+  (publish ke topik /cmd/vel)
+
+8.Menampilkan Data ke Terminal
+  Menampilkan nilai pitch dari gyro, error, dan kecepatan hasil PID ke terminal.
+
+'''
